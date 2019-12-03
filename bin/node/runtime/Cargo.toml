@@ -61,6 +61,8 @@ pallet-treasury = { version = "2.0.0", default-features = false, path = "../../.
 pallet-utility = { version = "2.0.0", default-features = false, path = "../../../frame/utility" }
 pallet-transaction-payment = { version = "2.0.0", default-features = false, path = "../../../frame/transaction-payment" }
 pallet-transaction-payment-rpc-runtime-api = { version = "2.0.0", default-features = false, path = "../../../frame/transaction-payment/rpc/runtime-api/" }
+# TODO: Update this
+bridge-eth-poa = { package = "pallet-bridge-eth-poa", path = "../../../frame/bridge-eth-poa", default-features = false }
 
 [build-dependencies]
 wasm-builder-runner = { version = "1.0.4", package = "substrate-wasm-builder-runner", path = "../../../utils/wasm-builder-runner" }
@@ -78,6 +80,7 @@ std = [
 	"pallet-babe/std",
 	"pallet-balances/std",
 	"sp-block-builder/std",
+	"bridge-eth-poa/std", # TODO: Update this
 	"codec/std",
 	"pallet-collective/std",
 	"pallet-contracts-rpc-runtime-api/std",
