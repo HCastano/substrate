@@ -58,6 +58,7 @@ pub use pallet_balances::Call as BalancesCall;
 pub use pallet_contracts::Gas;
 pub use frame_support::StorageValue;
 pub use pallet_staking::StakerStatus;
+pub use bridge_eth_poa::Call as BridgeEthPoaCall; // TODO: Update name
 
 /// Implementations of some helper traits passed into runtime modules as associated types.
 pub mod impls;
