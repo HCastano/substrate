@@ -96,5 +96,6 @@ pub fn config(support_changes_trie: bool, code: Option<&[u8]>) -> GenesisConfig 
 		pallet_membership_Instance1: Some(Default::default()),
 		pallet_sudo: Some(Default::default()),
 		pallet_treasury: Some(Default::default()),
+		bridge_eth_poa: Some(Default::default()), // TODO: Update name
 	}
 }

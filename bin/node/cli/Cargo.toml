@@ -45,6 +45,7 @@ sp-inherents = { version = "2.0.0", path = "../../../primitives/inherents" }
 sp-keyring = { version = "2.0.0", path = "../../../primitives/keyring" }
 sp-io = { version = "2.0.0", path = "../../../primitives/io" }
 sp-consensus = { version = "0.8", path = "../../../primitives/consensus/common" }
+sp-bridge-eth-poa = { package = "sp-bridge-eth-poa", path = "../../../primitives/bridge-eth-poa" }
 
 # client dependencies
 sc-client-api = { version = "2.0.0", path = "../../../client/api" }

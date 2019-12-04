@@ -3076,6 +3076,7 @@ dependencies = [
  "sp-authority-discovery 2.0.0",
  "sp-consensus 0.8.0",
  "sp-consensus-babe 0.8.0",
+ "sp-bridge-eth-poa 0.1.0",
  "sp-core 2.0.0",
  "sp-finality-grandpa 2.0.0",
  "sp-finality-tracker 2.0.0",
