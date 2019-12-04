@@ -279,6 +279,11 @@ impl<T: Trait> Module<T> {
 			&header,
 		)
 	}
+
+	/// Returns true if header is known to the runtime.
+	pub fn is_known_block(hash: H256) -> bool {
+		BridgeStorage.header(&hash).is_some()
+	}
 }
 
 /// Runtime bridge storage.

@@ -765,6 +765,10 @@ impl_runtime_apis! {
 		fn is_import_requires_receipts(header: sp_bridge_eth_poa::Header) -> bool {
 			BridgeEthPoa::is_import_requires_receipts(header)
 		}
+
+		fn is_known_block(hash: sp_bridge_eth_poa::H256) -> bool {
+			BridgeEthPoa::is_known_block(hash)
+		}
 	}
 }
 

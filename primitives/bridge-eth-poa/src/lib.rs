@@ -300,5 +300,8 @@ sp_api::decl_runtime_apis! {
 
 		/// Returns true if the import of given block requires transactions receipts.
 		fn is_import_requires_receipts(header: Header) -> bool;
+
+		/// Returns true if header is known to the runtime.
+		fn is_known_block(hash: H256) -> bool;
 	}
 }
