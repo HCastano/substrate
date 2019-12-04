@@ -16,6 +16,7 @@
 
 #![cfg_attr(not(feature = "std"), no_std)]
 
+pub use parity_bytes::Bytes;
 pub use primitive_types::{H160, H256, H512, U128, U256};
 pub use tiny_keccak::keccak256;
 
@@ -25,7 +26,6 @@ pub use rlp::encode as rlp_encode;
 use sp_std::prelude::*;
 use codec::{Decode, Encode};
 use ethbloom::{Bloom as EthBloom, Input as BloomInput};
-use parity_bytes::Bytes;
 use rlp::{Decodable, DecoderError, Rlp, RlpStream};
 use sp_runtime::RuntimeDebug;
 use fixed_hash::construct_fixed_hash;
