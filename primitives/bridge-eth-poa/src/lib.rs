@@ -289,3 +289,16 @@ pub fn public_to_address(public: &[u8; 64]) -> Address {
 	result.as_bytes_mut().copy_from_slice(&hash[12..]);
 	result
 }
+
+sp_api::decl_runtime_apis! {
+	/// API for headers submitters.
+	pub trait EthereumHeadersApi {
+		/// Returns number and hash of the best block known to the bridge module.
+		/// The caller should only submit `import_header` transaction that makes
+		/// (or leads to making) other header the best one.
+		fn best_block() -> (u64, H256);
+
+		/// Returns true if the import of given block requires transactions receipts.
+		fn is_import_requires_receipts(header: Header) -> bool;
+	}
+}

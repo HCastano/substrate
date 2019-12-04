@@ -756,6 +756,16 @@ impl_runtime_apis! {
 			SessionKeys::generate(seed)
 		}
 	}
+
+	impl sp_bridge_eth_poa::EthereumHeadersApi<Block> for Runtime {
+		fn best_block() -> (u64, sp_bridge_eth_poa::H256) {
+			BridgeEthPoa::best_block()
+		}
+
+		fn is_import_requires_receipts(header: sp_bridge_eth_poa::Header) -> bool {
+			BridgeEthPoa::is_import_requires_receipts(header)
+		}
+	}
 }
 
 #[cfg(test)]

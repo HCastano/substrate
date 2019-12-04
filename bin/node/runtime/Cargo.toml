@@ -29,6 +29,7 @@ sp-keyring = { version = "2.0.0", optional = true, path = "../../../primitives/k
 sp-session = { version = "2.0.0", default-features = false, path = "../../../primitives/session" }
 sp-transaction-pool = { version = "2.0.0", default-features = false, path = "../../../primitives/transaction-pool" }
 sp-version = { version = "2.0.0", default-features = false, path = "../../../primitives/version" }
+sp-bridge-eth-poa = { package = "sp-bridge-eth-poa", path = "../../../primitives/bridge-eth-poa", default-features = false }
 
 # frame dependencies
 frame-executive = { version = "2.0.0", default-features = false, path = "../../../frame/executive" }
@@ -80,6 +81,7 @@ std = [
 	"pallet-babe/std",
 	"pallet-balances/std",
 	"sp-block-builder/std",
+	"sp-bridge-eth-poa/std",
 	"bridge-eth-poa/std", # TODO: Update this
 	"codec/std",
 	"pallet-collective/std",
