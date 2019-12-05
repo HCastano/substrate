@@ -193,15 +193,17 @@ pub trait Trait: system::Trait {
 
 decl_module! {
 	pub struct Module<T: Trait> for enum Call where origin: T::Origin {
-		/// Import Aura chain header.
-		pub fn import_header(_origin, header: Header, receipts: Option<Vec<Receipt>>) {
-			import::import_header(
+		/// Import Aura chain headers.
+		///
+		/// This should be used with caution - passing too many headers could lead to
+		/// enormous block production/import time.
+		pub fn import_headers(_origin, headers_with_receipts: Vec<(Header, Option<Vec<Receipt>>)>) {
+			import::import_headers(
 				&mut BridgeStorage,
 				&kovan_aura_config(),
 				&kovan_validators_config(),
 				crate::import::PRUNE_DEPTH,
-				header,
-				receipts,
+				headers_with_receipts,
 			).map_err(|e| e.msg())?;
 		}
 	}

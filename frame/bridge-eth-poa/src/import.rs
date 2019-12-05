@@ -31,6 +31,27 @@ use crate::verification::verify_aura_header;
 /// why we never prune headers with scheduled changes.
 pub(crate) const PRUNE_DEPTH: u64 = 4096;
 
+/// Imports bunch of headers and updates blocks finality
+///
+/// Transactions receipts must be provided if `header_import_requires_receipts()`
+/// has returned true.
+pub fn import_headers<S: Storage>(
+	storage: &mut S,
+	aura_config: &AuraConfiguration,
+	validators_config: &ValidatorsConfiguration,
+	prune_depth: u64,
+	header: Vec<(Header, Option<Vec<Receipt>>)>,
+) -> Result<Vec<H256>, Error> {
+	header.into_iter().map(|(header, receipts)| import_header(
+		storage,
+		aura_config,
+		validators_config,
+		prune_depth,
+		header,
+		receipts,
+	)).collect()
+}
+
 /// Imports given header and updates blocks finality (if required).
 ///
 /// Transactions receipts must be provided if `header_import_requires_receipts()`
@@ -107,7 +128,6 @@ pub fn header_import_requires_receipts<S: Storage>(
 		.map(|validators| validators.maybe_signals_validators_change(header))
 		.unwrap_or(false)
 }
-
 
 /// Checks that we are able to ***try to** import this header.
 /// Returns error if we should not try to import this block.
