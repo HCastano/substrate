@@ -83,6 +83,7 @@ pub use hash_db::Hasher;
 // Switch back to Blake after PoC-3 is out
 // pub use self::hasher::blake::BlakeHasher;
 pub use self::hasher::blake2::Blake2Hasher;
+pub use self::hasher::keccak256::Keccak256Hasher;
 
 pub use sp_storage as storage;
 

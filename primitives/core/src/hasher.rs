@@ -51,3 +51,35 @@ pub mod blake2 {
 		}
 	}
 }
+
+pub mod keccak256 {
+	use super::{Hasher, Hash256StdHasher, H256};
+	#[cfg(feature = "std")]
+	use crate::hashing::keccak_256;
+
+	#[cfg(not(feature = "std"))]
+	extern "C" {
+		fn ext_keccak_256(data: *const u8, len: u32, out: *mut u8);
+	}
+	#[cfg(not(feature = "std"))]
+	fn keccak_256(data: &[u8]) -> [u8; 32] {
+		let mut result: [u8; 32] = Default::default();
+		unsafe {
+			ext_keccak_256(data.as_ptr(), data.len() as u32, result.as_mut_ptr());
+		}
+		result
+	}
+
+	/// Concrete implementation of Hasher using Keccak 256-bit hashes
+	#[derive(Debug)]
+	pub struct Keccak256Hasher;
+
+	impl Hasher for Keccak256Hasher {
+		type Out = H256;
+		type StdHasher = Hash256StdHasher;
+		const LENGTH: usize = 32;
+		fn hash(x: &[u8]) -> Self::Out {
+			keccak_256(x).into()
+		}
+	}
+}
