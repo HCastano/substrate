@@ -24,6 +24,7 @@ pub use rlp::encode as rlp_encode;
 
 use sp_std::prelude::*;
 use sp_io::hashing::keccak_256;
+use sp_io::trie::keccak_256_ordered_root;
 use codec::{Decode, Encode};
 use ethbloom::{Bloom as EthBloom, Input as BloomInput};
 use rlp::{Decodable, DecoderError, Rlp, RlpStream};
@@ -146,6 +147,13 @@ impl Header {
 		keccak_256(&self.rlp(true)).into()
 	}
 
+	/// Check if passed transactions receipts are matching this header.
+	pub fn check_transactions_receipts(&self, receipts: &Vec<Receipt>) -> bool {
+		let actual_root = keccak_256_ordered_root(receipts.iter().map(|receipt| receipt.rlp()).collect());
+		let expected_root = self.receipts_root;
+		actual_root == expected_root
+	}
+
 	/// Gets the seal hash of this header.
 	pub fn seal_hash(&self, include_empty_steps: bool) -> Option<H256> {
 		Some(match include_empty_steps {
@@ -200,6 +208,41 @@ impl Header {
 			for b in &self.seal {
 				s.append_raw(b, 1);
 			}
+		}
+
+		s.out()
+	}
+}
+
+impl Receipt {
+	/// Returns receipt RLP.
+	fn rlp(&self) -> Bytes {
+		let mut s = RlpStream::new();
+		match self.outcome {
+			TransactionOutcome::Unknown => {
+				s.begin_list(3);
+			},
+			TransactionOutcome::StateRoot(ref root) => {
+				s.begin_list(4);
+				s.append(root);
+			},
+			TransactionOutcome::StatusCode(ref status_code) => {
+				s.begin_list(4);
+				s.append(status_code);
+			},
+		}
+		s.append(&self.gas_used);
+		s.append(&EthBloom::from(self.log_bloom.0));
+
+		s.begin_list(self.logs.len());
+		for log in &self.logs {
+			s.begin_list(3);
+			s.append(&log.address);
+			s.begin_list(log.topics.len());
+			for topic in &log.topics {
+				s.append(topic);
+			}
+			s.append(&log.data);
 		}
 
 		s.out()

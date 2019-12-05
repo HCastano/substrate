@@ -54,6 +54,8 @@ pub enum Error {
 	NotValidator,
 	/// Missing transaction receipts for the operation.
 	MissingTransactionsReceipts,
+	/// Provided transactions receipts are not matching the header.
+	TransactionsReceiptsMismatch,
 }
 
 impl Error {
@@ -76,6 +78,7 @@ impl Error {
 			Error::InvalidDifficulty => "Header has invalid difficulty",
 			Error::NotValidator => "Header is sealed by unexpected validator",
 			Error::MissingTransactionsReceipts => "The import operation requires transactions receipts",
+			Error::TransactionsReceiptsMismatch => "Invalid transactions receipts provided",
 		}
 	}
 }

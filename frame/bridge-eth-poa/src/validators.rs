@@ -96,8 +96,6 @@ impl<'a> Validators<'a> {
 		header: &Header,
 		receipts: Option<Vec<Receipt>>,
 	) -> Result<(Option<Vec<Address>>, Option<Vec<Address>>), Error> {
-		// TODO: verify receipts root
-
 		// let's first check if new source is starting from this header
 		let (source_index, _, source) = self.source_at(header.number);
 		let (next_starts_at, next_source) = self.source_at_next_header(source_index, header.number);
@@ -134,6 +132,9 @@ impl<'a> Validators<'a> {
 		}
 
 		let receipts = receipts.ok_or(Error::MissingTransactionsReceipts)?;
+		if !header.check_transactions_receipts(&receipts) {
+			return Err(Error::TransactionsReceiptsMismatch);
+		}
 
 		// iterate in reverse because only the _last_ change in a given
 		// block actually has any effect
