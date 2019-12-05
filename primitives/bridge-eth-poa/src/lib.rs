@@ -18,12 +18,12 @@
 
 pub use parity_bytes::Bytes;
 pub use primitive_types::{H160, H256, H512, U128, U256};
-pub use tiny_keccak::keccak256;
 
 #[cfg(feature = "test-helpers")]
 pub use rlp::encode as rlp_encode;
 
 use sp_std::prelude::*;
+use sp_io::hashing::keccak_256;
 use codec::{Decode, Encode};
 use ethbloom::{Bloom as EthBloom, Input as BloomInput};
 use rlp::{Decodable, DecoderError, Rlp, RlpStream};
@@ -143,7 +143,7 @@ pub struct SealedEmptyStep {
 impl Header {
 	/// Get the hash of this header (keccak of the RLP with seal).
 	pub fn hash(&self) -> H256 {
-		keccak256(&self.rlp(true)).into()
+		keccak_256(&self.rlp(true)).into()
 	}
 
 	/// Gets the seal hash of this header.
@@ -152,9 +152,9 @@ impl Header {
 			true => {
 				let mut message = self.hash().as_bytes().to_vec();
 				message.extend_from_slice(self.seal.get(2)?);
-				keccak256(&message).into()
+				keccak_256(&message).into()
 			},
-			false => keccak256(&self.rlp(false)).into(),
+			false => keccak_256(&self.rlp(false)).into(),
 		})
 	}
 
@@ -212,7 +212,7 @@ impl SealedEmptyStep {
 		let mut message = RlpStream::new_list(2);
 		message.append(&self.step);
 		message.append(parent_hash);
-		keccak256(&message.out()).into()
+		keccak_256(&message.out()).into()
 	}
 
 	/// Returns rlp for the vector of empty steps (we only do encoding in tests).
@@ -284,7 +284,7 @@ impl std::fmt::Debug for Bloom {
 
 /// Convert public key into corresponding ethereum address.
 pub fn public_to_address(public: &[u8; 64]) -> Address {
-	let hash = keccak256(public);
+	let hash = keccak_256(public);
 	let mut result = Address::zero();
 	result.as_bytes_mut().copy_from_slice(&hash[12..]);
 	result
