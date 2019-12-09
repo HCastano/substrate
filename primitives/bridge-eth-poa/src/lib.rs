@@ -24,7 +24,6 @@ pub use rlp::encode as rlp_encode;
 
 use sp_std::prelude::*;
 use sp_io::hashing::keccak_256;
-use sp_io::trie::keccak_256_ordered_root;
 use codec::{Decode, Encode};
 use ethbloom::{Bloom as EthBloom, Input as BloomInput};
 use rlp::{Decodable, DecoderError, Rlp, RlpStream};
@@ -149,7 +148,19 @@ impl Header {
 
 	/// Check if passed transactions receipts are matching this header.
 	pub fn check_transactions_receipts(&self, receipts: &Vec<Receipt>) -> bool {
-		let actual_root = keccak_256_ordered_root(receipts.iter().map(|receipt| receipt.rlp()).collect());
+		struct Keccak256Hasher;
+
+		impl hash_db::Hasher for Keccak256Hasher {
+			type Out = H256;
+			type StdHasher = plain_hasher::PlainHasher;
+			const LENGTH: usize = 32;
+			fn hash(x: &[u8]) -> Self::Out {
+				keccak_256(x).into()
+			}
+		}
+
+		let receipts = receipts.iter().map(|r| r.rlp());
+		let actual_root = triehash::ordered_trie_root::<Keccak256Hasher, _>(receipts);
 		let expected_root = self.receipts_root;
 		actual_root == expected_root
 	}

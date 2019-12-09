@@ -4419,6 +4419,13 @@ version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
+name = "plain_hasher"
+version = "0.2.2"
+dependencies = [
+ "crunchy 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "ppv-lite86"
 version = "0.2.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4912,6 +4919,13 @@ dependencies = [
 name = "rlp"
 version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "rustc-hex 2.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "rlp"
+version = "0.4.4"
 dependencies = [
  "rustc-hex 2.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -6328,10 +6342,12 @@ version = "0.1.0"
 dependencies = [
  "ethbloom 0.8.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "fixed-hash 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "hash-db 0.15.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "impl-rlp 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "impl-serde 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "parity-bytes 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "parity-scale-codec 1.0.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "plain_hasher 0.2.2",
  "primitive-types 0.6.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "rlp 0.4.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.103 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -6340,6 +6356,7 @@ dependencies = [
  "sp-io 2.0.0",
  "sp-runtime 2.0.0",
  "sp-std 2.0.0",
+ "triehash 0.8.2",
 ]
 
 [[package]]
@@ -7575,6 +7592,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "hash-db 0.15.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "keccak-hasher 0.15.2 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "triehash"
+version = "0.8.2"
+dependencies = [
+ "hash-db 0.15.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rlp 0.4.4",
 ]
 
 [[package]]
