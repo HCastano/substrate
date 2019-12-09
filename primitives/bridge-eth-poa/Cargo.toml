@@ -21,8 +21,8 @@ sp-runtime = { path = "../sr-primitives", default-features = false }
 sp-api = { path = "../sr-api", default-features = false }
 sp-io = { path = "../sr-io", default-features = false }
 hash-db = { version = "0.15.2", default-features = false }
-triehash = { git = "https://github.com/paritytech/parity-common.git", triehash_no_std = "triehash_no_std", default-features = false }
-plain_hasher = { git = "https://github.com/paritytech/parity-common.git", triehash_no_std = "triehash_no_std", default-features = false }
+triehash = { git = "https://github.com/paritytech/parity-common.git", branch = "triehash_no_std", default-features = false }
+plain_hasher = { git = "https://github.com/paritytech/parity-common.git", branch = "triehash_no_std", default-features = false }
 
 [features]
 default = ["std"]

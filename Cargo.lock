@@ -4421,6 +4421,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "plain_hasher"
 version = "0.2.2"
+source = "git+https://github.com/paritytech/parity-common.git?branch=triehash_no_std#4d7d3f3c73e44388aa30555cf80f7f6b5f7ebd7b"
 dependencies = [
  "crunchy 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -4926,6 +4927,7 @@ dependencies = [
 [[package]]
 name = "rlp"
 version = "0.4.4"
+source = "git+https://github.com/paritytech/parity-common.git?branch=triehash_no_std#4d7d3f3c73e44388aa30555cf80f7f6b5f7ebd7b"
 dependencies = [
  "rustc-hex 2.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -6347,7 +6349,7 @@ dependencies = [
  "impl-serde 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "parity-bytes 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "parity-scale-codec 1.0.6 (registry+https://github.com/rust-lang/crates.io-index)",
- "plain_hasher 0.2.2",
+ "plain_hasher 0.2.2 (git+https://github.com/paritytech/parity-common.git?branch=triehash_no_std)",
  "primitive-types 0.6.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "rlp 0.4.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.103 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -6356,7 +6358,7 @@ dependencies = [
  "sp-io 2.0.0",
  "sp-runtime 2.0.0",
  "sp-std 2.0.0",
- "triehash 0.8.2",
+ "triehash 0.8.2 (git+https://github.com/paritytech/parity-common.git?branch=triehash_no_std)",
 ]
 
 [[package]]
@@ -7597,9 +7599,10 @@ dependencies = [
 [[package]]
 name = "triehash"
 version = "0.8.2"
+source = "git+https://github.com/paritytech/parity-common.git?branch=triehash_no_std#4d7d3f3c73e44388aa30555cf80f7f6b5f7ebd7b"
 dependencies = [
  "hash-db 0.15.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "rlp 0.4.4",
+ "rlp 0.4.4 (git+https://github.com/paritytech/parity-common.git?branch=triehash_no_std)",
 ]
 
 [[package]]
@@ -8643,6 +8646,7 @@ dependencies = [
 "checksum pin-utils 0.1.0-alpha.4 (registry+https://github.com/rust-lang/crates.io-index)" = "5894c618ce612a3fa23881b152b608bafb8c56cfc22f434a3ba3120b40f7b587"
 "checksum pkg-config 0.3.17 (registry+https://github.com/rust-lang/crates.io-index)" = "05da548ad6865900e60eaba7f589cc0783590a92e940c26953ff81ddbab2d677"
 "checksum plain 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)" = "b4596b6d070b27117e987119b4dac604f3c58cfb0b191112e24771b2faeac1a6"
+"checksum plain_hasher 0.2.2 (git+https://github.com/paritytech/parity-common.git?branch=triehash_no_std)" = "<none>"
 "checksum ppv-lite86 0.2.6 (registry+https://github.com/rust-lang/crates.io-index)" = "74490b50b9fbe561ac330df47c08f3f33073d2d00c150f719147d7c54522fa1b"
 "checksum pretty_assertions 0.6.1 (registry+https://github.com/rust-lang/crates.io-index)" = "3f81e1644e1b54f5a68959a29aa86cde704219254669da328ecfdf6a1f09d427"
 "checksum primitive-types 0.6.1 (registry+https://github.com/rust-lang/crates.io-index)" = "a0253db64c26d8b4e7896dd2063b516d2a1b9e0a5da26b5b78335f236d1e9522"
@@ -8808,6 +8812,7 @@ dependencies = [
 "checksum trie-db 0.18.1 (registry+https://github.com/rust-lang/crates.io-index)" = "191fda5d0106f3ed35a8c6875428b213e15c516e48129cc263dd7ad16e9a665f"
 "checksum trie-root 0.15.2 (registry+https://github.com/rust-lang/crates.io-index)" = "0b779f7c1c8fe9276365d9d5be5c4b5adeacf545117bb3f64c974305789c5c0b"
 "checksum trie-standardmap 0.15.2 (registry+https://github.com/rust-lang/crates.io-index)" = "c3161ba520ab28cd8e6b68e1126f1009f6e335339d1a73b978139011703264c8"
+"checksum triehash 0.8.2 (git+https://github.com/paritytech/parity-common.git?branch=triehash_no_std)" = "<none>"
 "checksum try-lock 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "e604eb7b43c06650e854be16a2a03155743d3752dd1c943f6829e26b7a36e382"
 "checksum trybuild 1.0.18 (registry+https://github.com/rust-lang/crates.io-index)" = "b75e31d624df08744532e935f1d4bfedd319a277d5a162c5b15f6ced59307575"
 "checksum twofish 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "712d261e83e727c8e2dbb75dacac67c36e35db36a958ee504f2164fc052434e1"
