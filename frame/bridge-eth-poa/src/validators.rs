@@ -370,6 +370,7 @@ pub(crate) mod tests {
 
 		// when we're inside contract range and logs bloom signals change
 		// but there's no change in receipts
+		header.receipts_root = "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421".parse().unwrap();
 		assert_eq!(
 			validators.extract_validators_change(&header, Some(Vec::new())),
 			Ok((None, None)),
@@ -378,9 +379,16 @@ pub(crate) mod tests {
 		// when we're inside contract range and logs bloom signals change
 		// and there's change in receipts
 		let receipts = vec![validators_change_recept(Default::default())];
+		header.receipts_root = "81ce88dc524403b796222046bf3daf543978329b87ffd50228f1d3987031dc45".parse().unwrap();
 		assert_eq!(
 			validators.extract_validators_change(&header, Some(receipts)),
 			Ok((Some(vec![[7; 20].into()]), None)),
+		);
+
+		// when incorrect receipts root passed
+		assert_eq!(
+			validators.extract_validators_change(&header, Some(Vec::new())),
+			Err(Error::TransactionsReceiptsMismatch),
 		);
 	}
 }

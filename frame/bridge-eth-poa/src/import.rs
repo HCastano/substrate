@@ -254,7 +254,10 @@ mod tests {
 
 		// header 11 finalizes headers [10] AND schedules change
 		// => we prune header#0
-		let header = custom_block_i(&storage, 11, &validators, |header| header.log_bloom = (&[0xff; 256]).into());
+		let header = custom_block_i(&storage, 11, &validators, |header| {
+			header.log_bloom = (&[0xff; 256]).into();
+			header.receipts_root = "2e60346495092587026484e868a5b3063749032b2ea3843844509a6320d7f951".parse().unwrap();
+		});
 		last_block_hash = import_header(
 			&mut storage,
 			&kovan_aura_config(),

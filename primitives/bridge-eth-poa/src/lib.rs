@@ -162,6 +162,9 @@ impl Header {
 		let receipts = receipts.iter().map(|r| r.rlp());
 		let actual_root = triehash::ordered_trie_root::<Keccak256Hasher, _>(receipts);
 		let expected_root = self.receipts_root;
+if actual_root != expected_root {
+	println!("=== {:?}", actual_root);
+}
 		actual_root == expected_root
 	}
 
