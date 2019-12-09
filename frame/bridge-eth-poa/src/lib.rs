@@ -198,6 +198,9 @@ decl_module! {
 		/// This should be used with caution - passing too many headers could lead to
 		/// enormous block production/import time.
 		pub fn import_headers(_origin, headers_with_receipts: Vec<(Header, Option<Vec<Receipt>>)>) {
+			// TODO:
+			// 1) import as much headers as possible - i.e. do not fail if import of some header has failed
+			// 2) do not penalize caller (iiuc === do not return error) if known (recent) header has been passed
 			import::import_headers(
 				&mut BridgeStorage,
 				&kovan_aura_config(),
