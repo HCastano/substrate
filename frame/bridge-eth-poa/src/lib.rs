@@ -187,27 +187,53 @@ pub trait Storage {
 	);
 }
 
+/// Decides whether the session should be ended.
+pub trait OnHeadersSubmitted<AccountId> {
+	/// Called when valid headers have been submitted.
+	fn on_valid_headers_submitted(submitter: AccountId, useful: u64, useless: u64);
+	/// Called when invalid headers have been submitted.
+	fn on_invalid_headers_submitted(submitter: AccountId);
+}
+
+impl<AccountId> OnHeadersSubmitted<AccountId> for () {
+	fn on_valid_headers_submitted(_submitter: AccountId, _useful: u64, _useless: u64) {}
+	fn on_invalid_headers_submitted(_submitter: AccountId) {}
+}
+
 /// The module configuration trait
 pub trait Trait: system::Trait {
+	/// Handler for headers submission result.
+	type OnHeadersSubmitted: OnHeadersSubmitted<Self::AccountId>;
 }
 
 decl_module! {
 	pub struct Module<T: Trait> for enum Call where origin: T::Origin {
-		/// Import Aura chain headers.
+		/// Import Aura chain headers. Ignores non-fatal errors (like when known
+		/// header is provided), rewards for successful headers import and penalizes
+		/// for fatal errors.
 		///
 		/// This should be used with caution - passing too many headers could lead to
 		/// enormous block production/import time.
-		pub fn import_headers(_origin, headers_with_receipts: Vec<(Header, Option<Vec<Receipt>>)>) {
-			// TODO:
-			// 1) import as much headers as possible - i.e. do not fail if import of some header has failed
-			// 2) do not penalize caller (iiuc === do not return error) if known (recent) header has been passed
-			import::import_headers(
+		pub fn import_headers(origin, headers_with_receipts: Vec<(Header, Option<Vec<Receipt>>)>) {
+			let submitter = system::ensure_signed(origin)?;
+			let import_result = import::import_headers(
 				&mut BridgeStorage,
 				&kovan_aura_config(),
 				&kovan_validators_config(),
 				crate::import::PRUNE_DEPTH,
 				headers_with_receipts,
-			).map_err(|e| e.msg())?;
+			);
+
+			match import_result {
+				Ok((useful, useless)) =>
+					T::OnHeadersSubmitted::on_valid_headers_submitted(submitter, useful, useless),
+				Err(error) => {
+					// even though we may have accept some headers, we do not want to reward someone
+					// who provides invalid headers
+					T::OnHeadersSubmitted::on_invalid_headers_submitted(submitter);
+					return Err(error.msg());
+				},
+			}
 		}
 	}
 }

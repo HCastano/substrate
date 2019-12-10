@@ -31,25 +31,42 @@ use crate::verification::verify_aura_header;
 /// why we never prune headers with scheduled changes.
 pub(crate) const PRUNE_DEPTH: u64 = 4096;
 
-/// Imports bunch of headers and updates blocks finality
+/// Imports bunch of headers and updates blocks finality.
 ///
 /// Transactions receipts must be provided if `header_import_requires_receipts()`
 /// has returned true.
+/// If successful, returns tuple where first element is the number of useful headers
+/// we have imported and the second element is the number of useless headers (duplicate)
+/// we have NOT imported.
+/// Returns error if fatal error has occured during import. Some valid headers may be
+/// imported in this case.
 pub fn import_headers<S: Storage>(
 	storage: &mut S,
 	aura_config: &AuraConfiguration,
 	validators_config: &ValidatorsConfiguration,
 	prune_depth: u64,
-	header: Vec<(Header, Option<Vec<Receipt>>)>,
-) -> Result<Vec<H256>, Error> {
-	header.into_iter().map(|(header, receipts)| import_header(
-		storage,
-		aura_config,
-		validators_config,
-		prune_depth,
-		header,
-		receipts,
-	)).collect()
+	headers: Vec<(Header, Option<Vec<Receipt>>)>,
+) -> Result<(u64, u64), Error> {
+	let mut useful = 0;
+	let mut useless = 0;
+	for (header, receipts) in headers {
+		let import_result = import_header(
+			storage,
+			aura_config,
+			validators_config,
+			prune_depth,
+			header,
+			receipts,
+		);
+
+		match import_result {
+			Ok(_) => useful += 1,
+			Err(Error::AncientHeader) | Err(Error::KnownHeader) => useless += 1,
+			Err(error) => return Err(error),
+		}
+	}
+
+	Ok((useful, useless))
 }
 
 /// Imports given header and updates blocks finality (if required).
@@ -90,6 +107,9 @@ pub fn import_header<S: Storage>(
 	)?;
 	let enacted_change = enacted_change
 		.or_else(|| validators.finalize_validators_change(storage, &finalized_blocks));
+
+	// NOTE: we can't return Err() from anywhere below this line
+	// (because otherwise we'll have inconsistent storage if transaction will fail)
 
 	// and finally insert the block
 	let (_, _, best_total_difficulty) = storage.best_block();
