@@ -47,7 +47,6 @@ use node_testing::keyring::*;
 mod common;
 use self::common::{*, sign};
 
-
 /// The wasm runtime binary which hasn't undergone the compacting process.
 ///
 /// The idea here is to pass it as the current runtime code to the executor so the executor will
@@ -813,5 +812,3 @@ fn should_import_block_with_test_client() {
 
 	client.import(BlockOrigin::Own, block).unwrap();
 }
-
-

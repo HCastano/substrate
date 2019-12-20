@@ -3082,6 +3082,7 @@ dependencies = [
  "pallet-transaction-payment 2.0.0",
  "pallet-treasury 2.0.0",
  "parity-scale-codec 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "sc-application-crypto 2.0.0",
  "sc-executor 2.0.0",
  "sp-core 2.0.0",
  "sp-io 2.0.0",

@@ -17,12 +17,14 @@
 use node_runtime::{
 	Call, Runtime, SubmitTransaction,
 };
+use primitives::{sr25519, ed25519};
 use primitives::testing::{KeyStore, ED25519, SR25519};
-use primitives::traits::{KeystoreExt, BareCryptoStorePtr};
+use primitives::traits::KeystoreExt;
 use primitives::offchain::{
 	TransactionPoolExt,
 	testing::TestTransactionPoolExt,
 };
+// use substrate_test_primitives::app_crypto;
 use system::offchain::{SubmitSignedTransaction, SubmitUnsignedTransaction};
 
 mod common;
@@ -52,13 +54,26 @@ fn should_submit_unsigned_transaction() {
 	});
 }
 
+mod app {
+	use super::{sr25519, SR25519};
+	use app_crypto::app_crypto;
+	app_crypto!(sr25519, SR25519);
+}
+
 #[test]
 fn should_submit_signed_transaction() {
 	let mut t = new_test_ext(COMPACT_CODE, false);
 	let (pool, state) = TestTransactionPoolExt::new();
 	t.register_extension(TransactionPoolExt::new(pool));
 
+	let alice = app::Pair::from_seed_slice(&[0; 32]);
 	let mut keystore = KeyStore::new();
+
+	// Could probably start with `insert_unknown` and then
+	// make some convenience functions for `insert_sr25519`,
+	// `insert_ed25519`, etc
+	keystore.write().insert_unknown(SR25519, "//boop", alice.public());
+
 	t.register_extension(KeystoreExt(keystore));
 
 	t.execute_with(|| {
