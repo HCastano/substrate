@@ -328,7 +328,7 @@ pub trait Trie {
 
 	/// A trie root formed from the enumerated items.
 	fn keccak_256_ordered_root(input: Vec<Vec<u8>>) -> H256 {
-		Layout::<primitives::Keccak256Hasher>::ordered_trie_root(input)
+		Layout::<sp_core::Keccak256Hasher>::ordered_trie_root(input)
 	}
 }
 

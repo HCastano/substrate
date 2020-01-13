@@ -18,7 +18,7 @@
 
 use sp_std::{prelude::*, iter::from_fn};
 use codec::{Decode, Encode};
-use support::{decl_module, decl_storage};
+use frame_support::{decl_module, decl_storage};
 use sp_runtime::RuntimeDebug;
 use primitives::{Address, U256, H256, Header, Receipt};
 use validators::{ValidatorsSource, ValidatorsConfiguration};
@@ -201,7 +201,7 @@ impl<AccountId> OnHeadersSubmitted<AccountId> for () {
 }
 
 /// The module configuration trait
-pub trait Trait: system::Trait {
+pub trait Trait: frame_system::Trait {
 	/// Handler for headers submission result.
 	type OnHeadersSubmitted: OnHeadersSubmitted<Self::AccountId>;
 }
@@ -215,7 +215,7 @@ decl_module! {
 		/// This should be used with caution - passing too many headers could lead to
 		/// enormous block production/import time.
 		pub fn import_headers(origin, headers_with_receipts: Vec<(Header, Option<Vec<Receipt>>)>) {
-			let submitter = system::ensure_signed(origin)?;
+			let submitter = frame_system::ensure_signed(origin)?;
 			let import_result = import::import_headers(
 				&mut BridgeStorage,
 				&kovan_aura_config(),
@@ -231,7 +231,7 @@ decl_module! {
 					// even though we may have accept some headers, we do not want to reward someone
 					// who provides invalid headers
 					T::OnHeadersSubmitted::on_invalid_headers_submitted(submitter);
-					return Err(error.msg());
+					return Err(error.msg().into());
 				},
 			}
 		}

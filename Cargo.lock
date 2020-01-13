@@ -6455,6 +6455,7 @@ dependencies = [
  "rlp 0.4.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.104 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde-big-array 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "sp-api 2.0.0",
  "sp-io 2.0.0",
  "sp-runtime 2.0.0",
  "sp-std 2.0.0",
