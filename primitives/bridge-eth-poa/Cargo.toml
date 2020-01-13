@@ -18,11 +18,11 @@ codec = { package = "parity-scale-codec", version = "1.0.0", default-features = 
 rlp = { version = "0.4", default-features = false }
 sp-std = { version = "2.0.0", default-features = false, path = "../std" }
 sp-runtime = { version = "2.0.0", default-features = false, path = "../runtime" }
-# sp-api = { path = "../sr-api", default-features = false }
+sp-api = { version = "2.0.0", path = "../api", default-features = false }
 sp-io = { version = "2.0.0", default-features = false, path = "../io" }
 hash-db = { version = "0.15.2", default-features = false }
 triehash = { version = "0.8.2", default-features = false }
-plain_hasher = { veresion = "0.2.2", default-features = false }
+plain_hasher = { version = "0.2.2", default-features = false }
 
 [features]
 default = ["std"]
@@ -41,7 +41,7 @@ std = [
 	"rlp/std",
 	"sp-std/std",
 	"sp-runtime/std",
-	# "sp-api/std",
+	"sp-api/std",
 	"sp-io/std",
 	"hash-db/std",
 	"triehash/std",
